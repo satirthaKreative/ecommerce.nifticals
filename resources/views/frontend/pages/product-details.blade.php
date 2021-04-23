@@ -168,13 +168,15 @@
                                 $fullStarCount = $rQuery['review_start_count'];
                                 $noStarCount = 5 - $rQuery['review_start_count'];
 
-                                for($i = 0; $i < $fullStarCount; $i++ ){
+                                for($i = 0; $i < $fullStarCount; $i++ )
+                                {
                             ?>
                                 <i class = "fa fa-star" aria-hidden = "true" style="color: yellow"></i>
                             <?php 
                                 }
 
-                                for($j = 0; $j < $noStarCount; $j++ ){
+                                for($j = 0; $j < $noStarCount; $j++ )
+                                {
                             ?>
                                 <i class = "fa fa-star" aria-hidden = "true"></i>
                             <?php 

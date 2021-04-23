@@ -62,6 +62,8 @@ Route::group(['prefix' => '/'], function(){
 
         // cart details 
         Route::get('/cart','Front\Cart\CartController@showPage')->name('satirtha.show-cart-page');
+        Route::get('/total-cart-price','Front\Cart\CartController@total_cart_price_fx')->name('satirtha.total-cart-price');
+        Route::get('/cart-details','Front\Cart\CartController@cart_details_fx')->name('satirtha.show-cart-details');
 
         
 

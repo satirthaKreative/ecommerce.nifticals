@@ -1,5 +1,40 @@
 @extends('frontend.app')
 @section('content')
+<style>
+p.loading_text {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 0;
+    color: #6a959e;
+}
+.p-details-popup {    position: relative;cursor:pointer;}
+.p-details-popup:hover span{    visibility: visible;}
+.p-details-popup span {
+    visibility: hidden;
+    width: 160px;
+    background-color: #6a959e;
+    color: #fff!important;
+    text-align: center;
+    border-radius: 6px;
+    padding: 15px 10px;
+    position: absolute;
+    font-size: 12px;
+    z-index: 1;
+    bottom: 25px;
+    text-transform: capitalize;
+    left: -25%;
+}
+.p-details-popup span::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6a959e transparent transparent transparent;
+}
+</style>
 <div class="inner-ban">
     <img src="{{ asset('frontend/images/inner-ban.jpg') }}" alt="">
     <div class="ban text">
@@ -26,72 +61,21 @@
                     <div class="row">
                         <div class="col-md-8 cart_table">
                             <table>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Subtotal</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cart_pic_area">
-                                            <div class="cart_pic_con">
-                                                <img src="{{ asset('frontend/images/cart_pic.png') }}">
-                                                <a href="#"><i class="fa fa-times"></i></a>
-                                            </div>
-                                            <h3>Canvas Photo Printing</h3>
-                                        </div>
-                                    </td>
-                                    <td><h3>$26.99</h3></td>
-                                    <td>
-                                        <div class="quantity-block">
-                                          <a class="quantity-arrow-minus"> - </a>
-                                          <input class="quantity-num" type="number" value="1" />
-                                          <a class="quantity-arrow-plus"> + </a>
-                                        </div>
-                                    </td>
-                                    <td><h3><span>$26.99</span></h3></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cart_pic_area">
-                                            <div class="cart_pic_con">
-                                                <img src="{{ asset('frontend/images/cart_pic.png') }}">
-                                                <a href="#"><i class="fa fa-times"></i></a>
-                                            </div>
-                                            <h3>Canvas Photo Printing</h3>
-                                        </div>
-                                    </td>
-                                    <td><h3>$26.99</h3></td>
-                                    <td>
-                                        <div class="quantity-block">
-                                          <a class="quantity-arrow-minus"> - </a>
-                                          <input class="quantity-num" type="number" value="1" />
-                                          <a class="quantity-arrow-plus"> + </a>
-                                        </div>
-                                    </td>
-                                    <td><h3><span>$26.99</span></h3></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cart_pic_area">
-                                            <div class="cart_pic_con">
-                                                <img src="{{ asset('frontend/images/cart_pic.png') }}">
-                                                <a href="#"><i class="fa fa-times"></i></a>
-                                            </div>
-                                            <h3>Canvas Photo Printing</h3>
-                                        </div>
-                                    </td>
-                                    <td><h3>$26.99</h3></td>
-                                    <td>
-                                        <div class="quantity-block">
-                                          <a class="quantity-arrow-minus"> - </a>
-                                          <input class="quantity-num" type="number" value="1" />
-                                          <a class="quantity-arrow-plus"> + </a>
-                                        </div>
-                                    </td>
-                                    <td><h3><span>$26.99</span></h3></td>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                               
+
+                                <tbody id="cart-details-table-id">
+                                    <tr>
+                                        <td colspan=4><p class="loading_text"> Loading your cart details . . . </p></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="col-md-4">
@@ -100,22 +84,22 @@
                                 <table>
                                     <tr>
                                         <td>Subtotal</td>
-                                        <td class="text-right"><strong>$53.98</strong></td>
+                                        <td class="text-right"><strong class="sub-and-total-class"></strong></td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Shipping</td>
                                         <td class="text-right"><strong>Flat Rate: $10.00</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Tax</td>
                                         <td class="text-right"><strong>$0.00</strong></td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td><strong>Total</strong></td>
-                                        <td class="text-right"><strong>$63.98</strong></td>
+                                        <td class="text-right"><strong class="sub-and-total-class"></strong></td>
                                     </tr>
                                 </table>
-                                <a href="#">Proceed to Checkout</a>
+                                <!-- <a href="#">Proceed to Checkout</a> -->
                             </div>
                         </div>
                     </div>
@@ -235,19 +219,19 @@
                                 <table>
                                     <tr>
                                         <td>Subtotal</td>
-                                        <td class="text-right"><strong>$53.98</strong></td>
+                                        <td class="text-right"><strong class="sub-and-total-class"></strong></td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Shipping</td>
                                         <td class="text-right"><strong>Flat Rate: $10.00</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Tax</td>
                                         <td class="text-right"><strong>$0.00</strong></td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td><strong>Total</strong></td>
-                                        <td class="text-right"><strong>$63.98</strong></td>
+                                        <td class="text-right"><strong class="sub-and-total-class"></strong></td>
                                     </tr>
                                 </table>
                                 <a href="#">Proceed to Checkout</a>
@@ -293,7 +277,7 @@
                                 <table>
                                     <tr>
                                         <td>Subtotal</td>
-                                        <td class="text-right"><strong>$53.98</strong></td>
+                                        <td class="text-right"><strong class="sub-and-total-id">$53.98</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Shipping</td>
@@ -332,5 +316,38 @@
 <div class="clearfix"></div>
 @endsection
 @section('jsContent')
+<script>
+    $(function(){
+        load_cart_details_fx();
+    });
 
+    function load_cart_details_fx()
+    {
+        $.ajax({
+            url: "{{ route('satirtha.show-cart-details') }}",
+            type: "GET",
+            dataType: "json",
+            success: function(event){
+                $("#cart-details-table-id").html(event.cart_details);
+                load_total_price_cart_fx();
+            }, error: function(event){
+
+            }
+        })
+    }
+
+    function load_total_price_cart_fx()
+    {
+        $.ajax({
+            url: "{{ route('satirtha.total-cart-price') }}",
+            type: "GET",
+            dataType: "json",
+            success: function(event){
+                $(".sub-and-total-class").html("$"+event);
+            }, error: function(event){
+
+            }
+        })
+    }
+</script>
 @endsection

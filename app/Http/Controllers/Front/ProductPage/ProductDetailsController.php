@@ -161,19 +161,56 @@ class ProductDetailsController extends Controller
             $product_name = $sProduct->product_name;
             $product_price = $sProduct->product_price;
         }
-        $cartInsertArr = [
-            "user_id" => $user_id, 
-            "user_ip" => $user_ip,
-            "product_id" => $_GET['pId'], 
-            "product_name" => $product_name, 
-            "additional_product_id" => 0, 
-            "product_price" => $product_price, 
-            "product_quantity" => 1, 
-            "admin_action" => 'active', 
-            "created_at" => date('Y-m-d'), 
-            "updated_at" => date('Y-m-d')
-        ];
-        $cartInsertQuery = CartModel::insert($cartInsertArr);
+        if(Auth::user())
+        {
+            $countGetCartQuery = CartModel::where(["user_id" => $user_id, "product_id" => $_GET['pId'], "additional_product_id" => 0])->get();
+        }
+        else
+        {
+            $countGetCartQuery = CartModel::where(["user_ip" => $user_ip, "product_id" => $_GET['pId'], "additional_product_id" => 0])->get();
+        }
+
+        if(count($countGetCartQuery) > 0)
+        {
+            if(Auth::user())
+            {
+                $lastCartQuery = CartModel::where(["user_id" => $user_id, "product_id" => $_GET['pId'], "additional_product_id" => 0])->get();
+            }
+            else
+            {
+                $lastCartQuery = CartModel::where(["user_ip" => $user_ip, "product_id" => $_GET['pId'], "additional_product_id" => 0])->get();
+            }
+            foreach($lastCartQuery as $lCQuery)
+            {
+                $productQueryCount = $lCQuery->product_quantity + 1;
+                $cart_id = $lCQuery->id;
+            }
+
+            $cartInsertArr = [
+                "product_quantity" => $productQueryCount
+            ];
+            $cartInsertQuery = CartModel::where('id',$cart_id)->update($cartInsertArr);
+        }
+        else
+        {
+           
+            $cartInsertArr = [
+                "user_id" => $user_id, 
+                "user_ip" => $user_ip,
+                "product_id" => $_GET['pId'], 
+                "product_name" => $product_name, 
+                "additional_product_id" => 0, 
+                "product_price" => $product_price, 
+                "product_quantity" => 1, 
+                "admin_action" => 'active', 
+                "created_at" => date('Y-m-d'), 
+                "updated_at" => date('Y-m-d')
+            ];
+            $cartInsertQuery = CartModel::insert($cartInsertArr);
+            
+        }
+        
+        
         if($cartInsertQuery)
         {
             $msg = "success";
@@ -184,7 +221,7 @@ class ProductDetailsController extends Controller
         }
 
         echo json_encode($msg);
-        
+    
     }
 
 
@@ -207,4 +244,7 @@ class ProductDetailsController extends Controller
 
         echo json_encode($html);
     }
+
+
+    
 }
